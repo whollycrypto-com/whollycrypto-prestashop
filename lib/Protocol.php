@@ -122,7 +122,8 @@ final class Protocol
         if (!in_array($invoice['status'] ?? '', ['new', 'processing', 'settled', 'expired', 'invalid', 'cancelled'], true)
             || !in_array($invoice['amount_status'] ?? '', ['none', 'partial', 'paid', 'overpaid'], true)
             || !is_int($invoice['sequence'] ?? null) || $invoice['sequence'] < max(1, $a['sequence'])
-            || !is_bool($invoice['requires_review'] ?? null)) {
+            || !in_array($invoice['timing_status'] ?? null, ['on_time', 'late'], true)
+            || (array_key_exists('requires_review', $invoice) && !is_bool($invoice['requires_review']))) {
             throw new \UnexpectedValueException('Invalid or stale invoice state.');
         }
         $url = self::https((string) ($result['links']['checkout'] ?? ''));
@@ -132,7 +133,9 @@ final class Protocol
         return array_replace($a, [
             'invoice_id' => $invoice['invoice_id'], 'status' => $invoice['status'],
             'amount_status' => $invoice['amount_status'], 'sequence' => $invoice['sequence'],
-            'review' => $invoice['requires_review'] || (($invoice['timing_status'] ?? 'on_time') !== 'on_time'),
+            // requires_review belongs to callbacks, not the invoice-detail API.
+            // Derive the same conservative exceptions from authoritative fields.
+            'review' => ($invoice['requires_review'] ?? false) || $invoice['amount_status'] === 'overpaid' || $invoice['timing_status'] === 'late',
             'checkout_url' => $url,
         ]);
     }

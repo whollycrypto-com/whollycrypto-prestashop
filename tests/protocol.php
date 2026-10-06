@@ -31,7 +31,7 @@ $s = Protocol::settings(['api_url' => 'https://api.example.test/', 'pay_url' => 
 $a = Protocol::attempt($s, 42, 'shop:42', '25.00', 'EUR', ['ipn_url' => 'https://shop.example.test/ipn', 'redirect_url' => 'https://shop.example.test/return', 'cancel_url' => 'https://shop.example.test/return']);
 $invoice = ['invoice_id' => '33333333-3333-4333-8333-333333333333', 'project_id' => $s['project_id'], 'store_id' => $s['store_id'],
     'order_id' => 'shop:42', 'amount' => '25.0000', 'currency' => 'EUR', 'status' => 'new', 'amount_status' => 'none',
-    'sequence' => 1, 'requires_review' => false, 'timing_status' => 'on_time'];
+    'sequence' => 1, 'timing_status' => 'on_time'];
 $t = new FixtureTransport(); $t->invoice = $invoice; $t->url = $s['pay_url'] . '/invoice/' . $invoice['invoice_id'];
 check(Protocol::decimal('000.0001') === '0.0001', 'decimal normalization');
 check(Protocol::decimal('999999999999999999.000000001') === '999999999999999999.000000001', 'exact decimal');
@@ -44,6 +44,7 @@ rejects(fn () => Protocol::settings(array_replace($s, ['project_id' => 'my-proje
 rejects(fn () => Protocol::settings(array_replace($s, ['api_key' => ''])), 'empty credential');
 rejects(fn () => Protocol::attempt($s, 1, 'x', '0', 'EUR', $a['payload']), 'zero order');
 $saved = Protocol::fetch($s, $a, $t);
+check($saved['review'] === false, 'invoice detail does not require callback-only review flag');
 Protocol::fetch($s, $a, $t);
 check($t->requests[0]->headers()['Idempotency-Key'] === $t->requests[1]->headers()['Idempotency-Key'], 'timeout replay key');
 check($t->requests[0]->body() === $t->requests[1]->body(), 'timeout replay bytes');
@@ -95,4 +96,10 @@ foreach ([['new','none',false,'pending'], ['processing','paid',false,'pending'],
 }
 $t->status = 200; $t->invoice = array_replace($invoice, ['timing_status'=>'late','status'=>'settled','amount_status'=>'paid']);
 check(Protocol::decision(Protocol::fetch($s, $saved, $t)) === 'review', 'late settlement review');
+$t->invoice = array_replace($invoice, ['timing_status'=>'on_time','status'=>'settled','amount_status'=>'overpaid']);
+check(Protocol::decision(Protocol::fetch($s, $saved, $t)) === 'review', 'API overpayment derives review without a callback flag');
+$t->invoice = array_replace($invoice, ['status'=>'settled','amount_status'=>'paid']);
+check(Protocol::decision(Protocol::fetch($s, $saved, $t)) === 'paid', 'real invoice-detail shape settles without callback-only fields');
+$t->invoice['timing_status'] = 'unknown';
+rejects(fn () => Protocol::fetch($s, $saved, $t), 'unknown timing state');
 echo "Protocol: $checks assertions passed on PHP " . PHP_VERSION . "\n";

@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 KIND = 'prestashop'
 SLUG = 'whollycrypto-' + KIND
 FILES = {'README.md', 'LICENSE', 'CHANGELOG.md', 'SECURITY.md', 'whollycrypto.php'}

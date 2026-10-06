@@ -18,7 +18,7 @@ receives verified order updates; no wallet keys belong in this module.
 
 ## Install
 
-1. Back up your shop. Download **`whollycrypto-prestashop-1.0.0.zip`** from Releases,
+1. Back up your shop. Download **`whollycrypto-prestashop-1.0.1.zip`** from Releases,
    not GitHub's automatic source archive. Verify it with the attached `SHA256SUMS`.
 2. In **Modules → Module Manager → Upload a module**, upload the ZIP. It contains
    the required `whollycrypto/` module directory and its isolated PHP SDK.
@@ -52,9 +52,9 @@ its current value. Optional sharing of the customer's email is off by default.
 | Wholly invoice | Shop handling |
 | --- | --- |
 | `new` or `processing` | Awaiting payment, including partial or unconfirmed funds |
-| `settled`, paid/overpaid, no review or late flag | Native payment record and Payment accepted; only the original fiat total is credited |
+| `settled`, paid, no review or late flag | Native payment record and Payment accepted; only the original fiat total is credited |
 | `expired` / `cancelled`, no funds | Cancel pending order |
-| Invalid, late, ambiguous, changed total or cancelled order receiving funds | Review; never automatically fulfill or revive an order |
+| Overpaid, invalid, late, ambiguous, changed total or cancelled order receiving funds | Review; never automatically fulfill or revive an order |
 | Payment changes after fulfillment | Private review note; no automatic refund or reversal |
 
 `event_type` describes what happened; `status` describes the invoice snapshot.

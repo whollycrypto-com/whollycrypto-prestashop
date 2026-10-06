@@ -20,7 +20,7 @@ for name, digest in upstream["upstream_sha256"].items():
     content = (vendor / name).read_bytes().replace(namespace, b"WhollyCrypto")
     assert hashlib.sha256(content).hexdigest() == digest, "Bundled SDK differs beyond namespace: " + name
 subprocess.run(["python3", str(root / "tools/build.py")], check=True)
-archive = root / "dist" / ("whollycrypto-prestashop-1.0.0.zip" if prefix else "whollycrypto.ocmod.zip")
+archive = root / "dist" / ("whollycrypto-prestashop-" + builder.VERSION + ".zip" if prefix else "whollycrypto.ocmod.zip")
 first = archive.read_bytes()
 subprocess.run(["python3", str(root / "tools/build.py")], check=True)
 assert archive.read_bytes() == first, "Archive must reproduce byte-for-byte"

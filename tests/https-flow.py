@@ -60,7 +60,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
     def invoice(self, identifier):
         if control['http_status'] != 200:
             return self.reply(control['http_status'], {'error': {'code': 'test_unavailable'}})
-        state = {k: v for k, v in control.items() if k != 'http_status'}
+        # Public invoice detail omits callback-only requires_review.
+        state = {k: v for k, v in control.items() if k not in ('http_status', 'requires_review')}
         self.reply(200, {'data': dict(invoices[identifier], **state), 'links': {'checkout': 'https://pay.example.test/invoice/' + identifier}})
 
 root = Path(__file__).resolve().parent
