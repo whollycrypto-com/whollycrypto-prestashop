@@ -1,0 +1,31 @@
+{
+  "package": "whollycrypto/php-sdk",
+  "version": "2.6.0",
+  "tag": "v2.6.0",
+  "commit": "90f07903de496bd11eb0ef60ad726b0069e5289f",
+  "repository": "https://github.com/whollycrypto-com/whollycrypto-php-sdk",
+  "license": "MIT",
+  "modification": "Isolated namespace prefix only.",
+  "upstream_sha256": {
+    "LICENSE": "90912ef2cd4406688d7b89a770fc6fbe9f875c1a0b7340892850751655b088f4",
+    "src/CheckoutClient.php": "fa878f2d681022128b3c006336f96150d99a762422fdb3acd5ccfbea9284930e",
+    "src/Client.php": "8ddb8dbbdd8547b588e29354e46c27a8b3999a5c47ea3e10a02d4d472da477a3",
+    "src/Exception/ApiException.php": "21dbf02853800b7a7fef38aad55b273c9a4f1aba7368ba52b2c327a8778c822d",
+    "src/Exception/InvalidResponseException.php": "7cc3e1ef70c6e08f57e93ebf00fad0d08099111a49c5a655808dbe0a679749d4",
+    "src/Exception/InvalidSignatureException.php": "125b1130b76dcd5cf235fead0a80de0cd5ad92fccf32779bb1007fbebcf420a3",
+    "src/Exception/TransportException.php": "1bd604a018aa73c3ef41d4f2fa0fc70d4d2e97cd949ac4b7be96f4ee6002d098",
+    "src/Http/CurlTransport.php": "c7d81dd6db18d8b58fdc8d50b3e1940ff1a623061b87b34db07e3fb34b8c2eaf",
+    "src/Http/Request.php": "5b4d87a9f9ccf057dba3cf304dfc0ef86446dbba63f0fe1aa586d2da1b7939ae",
+    "src/Http/Response.php": "989bd3bfb71b177c6e6ecd42c912be7da9107dbb2a0e273009c1083320ec3d99",
+    "src/Http/TransportInterface.php": "f27491b36e7737988290cbafe244ecfc3e4c99d181cbd93260ab70e26e7b6b0b",
+    "src/Internal/Compat.php": "a8632dbd0d2ea5a462314056d0ca8fce0c759eca7e9372eb757059b04e8d6c01",
+    "src/Internal/JsonClient.php": "c08c3a3d6645b24db261676a18c5d57462ea48f4d3654d52b8434380286213e6",
+    "src/Internal/RejectDynamicProperties.php": "cf117ed301b1436eabef5874321fe931f79c780d1adb5969ee6a9946dfbeac0a",
+    "src/Internal/Validation.php": "624a6a6a29f99b5cc35450f6d237d6228b35843c37972e2837900732b2f2a080",
+    "src/Notification.php": "55bb38b65a8e85eb0dc3d43bdad52cf7d93522a69ea099a1d24b847b29a5ca7a",
+    "src/OperatorClient.php": "76e771ee0c4abb22d4feed0bd6aac87c1fd8e70d2128057a1f2e19c6f5c9419f",
+    "src/OperatorOnboardingClient.php": "bd0a779fee7542c8bc4742860ad2533280e74c011f0bbaced6fe85be17279fd2",
+    "src/Options.php": "cabf8db357d3d6889c7e7657d558246c1870c0c1005caf9faa16e159665c8a37",
+    "src/Webhook.php": "a2600d9a91b24596df46321ddda1373877c2a687fd0b464e0256dcc8dbb6e739"
+  }
+}

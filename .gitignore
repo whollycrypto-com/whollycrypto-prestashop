@@ -1,0 +1,8 @@
+/dist/
+*.log
+.env*
+*.pem
+*.key
+/.cache/
+__pycache__/
+*.py[cod]
